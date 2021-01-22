@@ -1,0 +1,39 @@
+.FlexEnd {
+  flex-direction: row-reverse;
+  align-items: center;
+  display: flex;
+  width: 100%;
+}
+
+.NavBar {
+  display: flex;
+  align-items: center;
+  height: 75px;
+}
+
+.Container {
+  margin: auto;
+  max-width: 90%;
+}
+
+#CryptoSymbol {
+  margin-right: 30px;
+  margin-left: 10px;
+  border-radius: 5px;
+  background-color: grey;
+  color: white;
+  padding: 3px;
+}
+
+.CrytpoIcon {
+  display: inline;
+  vertical-align: middle;
+}
+
+.ColorRed {
+  color: red !important;
+}
+
+.ColorGreen {
+  color: Green !important;
+}
