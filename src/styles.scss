@@ -1,0 +1,145 @@
+.FlexEnd {
+  flex-direction: row-reverse;
+  align-items: center;
+  display: flex;
+  width: 100%;
+}
+
+.NavBar {
+  display: flex;
+  align-items: center;
+  height: 75px;
+}
+
+.Container {
+  width: 100%;
+  height: 99vh !important;
+}
+
+body{
+  overflow: hidden
+}
+ 
+#CryptoSymbol {
+  margin-right: 30px;
+  margin-left: 10px;
+  border-radius: 5px;
+  background-color: grey;
+  color: white;
+  padding: 3px;
+}
+
+.CrytpoIcon {
+  display: inline;
+  vertical-align: middle;
+}
+
+.ColorRed {
+  color: red !important;
+}
+
+.ColorGreen {
+  color: Green !important;
+}
+
+.Fiat {
+  vertical-align: bottom !important;
+}
+
+body.light-mode {
+  background-color: #fff;
+  color: black;
+  transition: background-color 0.3s ease;
+}
+body.dark-mode {
+  background-color: #1a1919;
+  color: white;
+  transition: background-color 0.3s ease;
+
+  .MuiTableCell-head {
+    color: white;
+}
+.MuiFormLabel-root {
+
+  color: white;
+}
+
+.MuiTypography-root {
+  color: white;
+
+}
+
+.MuiDivider-root {
+  background-color: white;
+}
+
+.MuiNativeSelect-select {
+  background-color: #1a1919
+}
+
+.MuiButton-label {
+    color:white
+
+}
+.MuiInputBase-root {
+  color: white;
+}
+  .MuiTableCell-body {
+    color: white;
+  }
+
+  .MuiNativeSelect-icon {
+      color: white
+
+  }
+
+
+
+  .MuiNativeSelect-select:not([multiple]) option, .MuiNativeSelect-select:not([multiple]) optgroup {
+    background-color: black;
+}
+
+    .MuiPaper-root {
+      background-color: #1a1919;
+    }
+
+    .MuiIconButton-root {
+      color: white
+
+    }
+
+    .MuiExpansionPanel-root:before {
+      background-color: white;
+    }
+
+    .MuiTableBody-root .MuiTableRow-root:hover {
+ 
+        background-color: darkcyan;
+    } 
+
+    .ColorRed {
+          color: lightcoral
+
+    }
+    
+
+}
+
+
+.center {
+  text-align: center;
+}
+
+
+.MuiTableBody-root  .MuiTableRow-root {
+  transition: 1s all;
+
+}
+
+.MuiTableBody-root .MuiTableRow-root:hover {
+  cursor: pointer;
+  transition: 1s all;
+    background-color: #e3fdff;
+} 
+
+ 
