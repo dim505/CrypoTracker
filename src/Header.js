@@ -4,7 +4,7 @@ import TimelineIcon from "@material-ui/icons/Timeline";
 import Typography from "@material-ui/core/Typography";
 import Switch from "@material-ui/core/Switch";
 import useDarkMode from "use-dark-mode";
-
+import SearchCoins from "./SearchCoins";
 const Header = () => {
   const darkMode = useDarkMode(false);
 
@@ -26,6 +26,7 @@ const Header = () => {
         </div>
       </div>
       <Divider />
+      <SearchCoins />
     </>
   );
 };

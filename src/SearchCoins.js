@@ -21,6 +21,10 @@ const SearchCoins = () => {
     appState.SearchCoins(SearchTerm);
   };
 
+  const UpdateFiat = (event) => {
+    appState.UpdateSelectedFiat(event.target.value);
+  };
+
   return (
     <>
       <FormControl>
@@ -44,7 +48,7 @@ const SearchCoins = () => {
         }}
       >
         <InputLabel htmlFor="Fiat">Fiat</InputLabel>
-        <NativeSelect onChange={handleChange} id="Fiat">
+        <NativeSelect onChange={UpdateFiat} id="Fiat">
           <option value="USD"> USD</option>
           {appState.Fiats.map((fiat) => {
             return (

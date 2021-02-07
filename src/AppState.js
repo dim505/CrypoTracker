@@ -25,7 +25,7 @@ class AppState {
     ApiCall("Get", "https://api.coincap.io/v2/assets?limit=750").then(
       (results) => {
         this.Rows = results.data;
-        this.RowsFiltered = results.data.slice(0, 200);
+        this.RowsFiltered = results.data.slice(0, 50);
         this.IsLoaded = true;
 
         this.setCrypoPics();
@@ -54,7 +54,7 @@ class AppState {
       this.RowsFiltered = this.Rows.slice(0, 25);
       this.SearchArray = [];
     }
-
+    document.getElementsByClassName("Container")[0].scrollTop = 0;
     this.setCrypoPics();
   };
 
@@ -79,6 +79,7 @@ class AppState {
           this.RowsFiltered.length + 50
         )
       ];
+      this.setCrypoPics();
     } else {
       this.RowsFiltered = [
         ...this.RowsFiltered,
@@ -89,6 +90,8 @@ class AppState {
       ];
       this.setCrypoPics();
     }
+
+    console.log("Loaded More Crypto");
   };
 }
 

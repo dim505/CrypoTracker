@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import "./styles.scss";
 import Header from "./Header";
-import SearchCoins from "./SearchCoins";
 import TableContainer from "./TableContainer";
 import AppStateContext from "./appState";
 import "react-perfect-scrollbar/dist/css/styles.css";
+import Typography from "@material-ui/core/Typography";
 import PerfectScrollbar from "react-perfect-scrollbar";
 const App = () => {
   const AppState = useContext(AppStateContext);
@@ -14,25 +14,23 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <>
+      <Header />
       <PerfectScrollbar
         onScrollDown={(Container) => {
-          var currentScrollPos = Container.scrollTop;
-          console.log(currentScrollPos);
-          if (
-            Container.scrollHeight - currentScrollPos <=
-            Container.clientHeight + 0.5
-          )
+          var currentScrollPos = Container.scrollHeight - Container.scrollTop;
+          var BottomOfScreen = Container.clientHeight + 1;
+          if (currentScrollPos <= BottomOfScreen) {
+            console.log(currentScrollPos);
             AppState.LoadMoreCrypto();
-          console.log("you are at the bottm");
+            console.log("you are at the bottm");
+          }
         }}
         className="Container"
       >
-        <Header />
-        <SearchCoins />
         <TableContainer />
       </PerfectScrollbar>
-    </div>
+    </>
   );
 };
 

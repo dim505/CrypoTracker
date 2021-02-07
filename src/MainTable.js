@@ -5,11 +5,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import Table from "@material-ui/core/Table";
-import NumberFormat from "react-number-format";
-import Button from "@material-ui/core/Button";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
-import { Icon } from "coinmarketcap-cryptocurrency-icons";
+
 import { observer } from "mobx-react";
 const MainTable = (props) => {
   return (
@@ -28,7 +24,11 @@ const MainTable = (props) => {
         </TableHead>
         <TableBody>
           {props.data.map((row) => (
-            <TableRow>
+            <TableRow
+              onClick={() => {
+                props.OpenModal(row.name.props.children[2]);
+              }}
+            >
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.MarketCap}</TableCell>
               <TableCell>{row.Price}</TableCell>
