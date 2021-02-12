@@ -21,9 +21,7 @@ const App = () => {
           var currentScrollPos = Container.scrollHeight - Container.scrollTop;
           var BottomOfScreen = Container.clientHeight + 1;
           if (currentScrollPos <= BottomOfScreen) {
-            console.log(currentScrollPos);
             AppState.LoadMoreCrypto();
-            console.log("you are at the bottm");
           }
         }}
         className="Container"

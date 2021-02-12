@@ -5,28 +5,36 @@ import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import Table from "@material-ui/core/Table";
-
+import AppStateContext from "./appState";
 import { observer } from "mobx-react";
+
 const MainTable = (props) => {
+  const appState = useContext(AppStateContext);
+
+  useEffect(() => {
+    appState.setCrypoPics();
+  }, []);
+
   return (
     <TableContainer>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
-            <TableCell>Market Cap</TableCell>
+            <TableCell> Market Cap</TableCell>
+
             <TableCell>Price</TableCell>
             <TableCell>Volume (24 HR)</TableCell>
             <TableCell>Circulating Supply</TableCell>
             <TableCell>Change (24 hr)</TableCell>
-            <TableCell>Trade</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.data.map((row) => (
             <TableRow
+              key={row.Key}
               onClick={() => {
-                props.OpenModal(row.name.props.children[2]);
+                props.OpenModal(row.Key);
               }}
             >
               <TableCell>{row.name}</TableCell>
@@ -44,8 +52,6 @@ const MainTable = (props) => {
               >
                 {row.Change}
               </TableCell>
-
-              <TableCell>{row.Trade}</TableCell>
             </TableRow>
           ))}
         </TableBody>

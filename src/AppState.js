@@ -22,10 +22,10 @@ class AppState {
     }, 1000);
   };
   GetData = () => {
-    ApiCall("Get", "https://api.coincap.io/v2/assets?limit=750").then(
+    ApiCall("Get", "https://api.coincap.io/v2/assets?limit=600").then(
       (results) => {
         this.Rows = results.data;
-        this.RowsFiltered = results.data.slice(0, 50);
+        this.RowsFiltered = results.data.slice(0, 200);
         this.IsLoaded = true;
 
         this.setCrypoPics();
@@ -76,7 +76,7 @@ class AppState {
         ...this.RowsFiltered,
         ...this.SearchArray.slice(
           this.RowsFiltered.length,
-          this.RowsFiltered.length + 50
+          this.RowsFiltered.length + 200
         )
       ];
       this.setCrypoPics();
@@ -85,7 +85,7 @@ class AppState {
         ...this.RowsFiltered,
         ...this.Rows.slice(
           this.RowsFiltered.length,
-          this.RowsFiltered.length + 50
+          this.RowsFiltered.length + 200
         )
       ];
       this.setCrypoPics();

@@ -12,7 +12,7 @@ export const ApiCall = async (Method, url, PostData) => {
       });
       return result;
     } catch (error) {
-      console.log(error);
+      return error;
     }
   } else if (Method === "Post") {
     try {

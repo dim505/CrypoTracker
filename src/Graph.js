@@ -19,11 +19,13 @@ const Graph = (props) => {
   const [GraphData, SetGraphData] = useState([]);
   const [ActiveButton, SetActiveButton] = useState("Day");
   useEffect(() => {
-    var CurrDate = moment().unix();
-    var CurrDateMinusOneDay = moment().subtract(1, "days").unix();
-    //gets data for days graph
-    GetGraphData(props.CryptoName, CurrDateMinusOneDay, CurrDate, "h1");
-  }, []);
+    if (props.CryptoName !== "") {
+      var CurrDate = moment().unix();
+      var CurrDateMinusOneDay = moment().subtract(1, "days").unix();
+      //gets data for days graph
+      GetGraphData(props.CryptoName, CurrDateMinusOneDay, CurrDate, "h1");
+    }
+  }, [props.CryptoName]);
 
   const HandleButtonClick = (ButtonClicked) => {
     SetActiveButton(ButtonClicked);
@@ -46,11 +48,6 @@ const Graph = (props) => {
 
   //StartTime minus 1 day, endtime = current time
   const GetGraphData = (Coin, StartTime, EndTime, Interval) => {
-    console.log(
-      `https://api.coincap.io/v2/assets/${Coin.toLowerCase()}/history?start=${
-        StartTime * 1000
-      }&end=${EndTime * 1000}&interval=${Interval}`
-    );
     ApiCall(
       "Get",
       `https://api.coincap.io/v2/assets/${Coin.toLowerCase()}/history?start=${
@@ -65,7 +62,7 @@ const Graph = (props) => {
         var NewDate = moment(row.time).format("MMM DD, YY H:mm");
         FormattedResults.push({
           date: NewDate,
-          price: parseFloat(parseFloat(row.priceUsd).toFixed(2))
+          price: parseFloat(parseFloat(row.priceUsd).toFixed(3))
         });
       });
       console.log(FormattedResults);

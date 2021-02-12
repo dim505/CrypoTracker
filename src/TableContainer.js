@@ -19,37 +19,46 @@ import Card from "@material-ui/core/Card";
 import Graph from "./Graph";
 import LaunchIcon from "@material-ui/icons/Launch";
 import CardContent from "@material-ui/core/CardContent";
-import IconButton from "@material-ui/core/IconButton";
-
 import { ApiCall } from "./ApiCall.js";
-
+ 
 const TableContainer = () => {
   const AppState = useContext(AppStateContext);
   const [OpnModal, SetModal] = useState(false);
-  const [SelectedCrypto, SetSelectedCrypto] = useState([
-    { name: "", supply: "", symbol: "" }
-  ]);
+  const [SelectedCrypto, SetSelectedCrypto] = useState({
+    name: "",
+    symbol: ""
+  });
+  const [UseName, SetUseName] = useState("");
 
-  const IsMobile = useMediaQuery("(max-width: 970px)");
+  const IsMobile = useMediaQuery("(max-width: 800px)");
   const OpenModal = (CryptoName) => {
+
     SetModal(true);
-    var CryptoArray = AppState.Rows;
-    var FilteredArray = CryptoArray.filter((row) => {
-      return row.name === CryptoName;
-    });
 
-    SetSelectedCrypto(FilteredArray);
+    ApiCall("Get", `https://api.coincap.io/v2/assets/${CryptoName}`).then(
+      (results) => {
+        if (results.data !== undefined) {
+          SetSelectedCrypto(results.data);
+          SetUseName(CryptoName);
+        }
+      }
+    );
 
+    
     setTimeout(() => {
       var IconElement = document.getElementById("ModalIcon");
       if (IconElement.innerHTML.search("undefined") !== -1) {
         IconElement.innerHTML = `<svg height="80" viewBox="0 0 32 32" width="80" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle cx="16" cy="16" fill="#efb914" fill-rule="nonzero" r="16"/><path d="M21.002 9.855A7.947 7.947 0 0124 15.278l-2.847-.708a5.357 5.357 0 00-3.86-3.667c-2.866-.713-5.76.991-6.465 3.806s1.05 5.675 3.917 6.388a5.373 5.373 0 005.134-1.43l2.847.707a7.974 7.974 0 01-5.2 3.385L16.716 27l-2.596-.645.644-2.575a8.28 8.28 0 01-1.298-.323l-.643 2.575-2.596-.646.81-3.241c-2.378-1.875-3.575-4.996-2.804-8.081s3.297-5.281 6.28-5.823L15.323 5l2.596.645-.644 2.575a8.28 8.28 0 011.298.323l.643-2.575 2.596.646z" fill="#fff"/></g></svg> `;
       }
-    }, 500);
+    }, 1000);
   };
 
   const CloseModal = () => {
     SetModal(false);
+    SetSelectedCrypto({
+      name: "",
+      symbol: ""
+    });
   };
   window.IsMobile = IsMobile;
   const columns = [
@@ -57,6 +66,8 @@ const TableContainer = () => {
       key: "name",
       label: "Name"
     },
+
+    { key: "PriceTracking", label: "Price Tracking" },
     {
       key: "MarketCap",
       label: "Market Cap"
@@ -77,17 +88,12 @@ const TableContainer = () => {
     {
       key: "Change",
       label: "Change (24 hr)"
-    },
-    {
-      key: "Trade",
-      label: "Trade"
     }
   ];
 
   const data = AppState.RowsFiltered.map((row) => {
     var RowObj = {
-      RowID: row.name,
-
+      Key: row.id,
       name: (
         <div>
           <div className="CrytpoIcon">
@@ -96,15 +102,20 @@ const TableContainer = () => {
           <span id="CryptoSymbol"> {row.symbol} </span>
 
           {row.name}
+        </div>
+      ),
+
+      PriceTracking: (
+        <>
           {IsMobile ? (
-            <IconButton onClick={() => OpenModal(row.name)}>
-              {" "}
-              <LaunchIcon />{" "}
-            </IconButton>
+            <LaunchIcon
+              classes={{ root: "pointer" }}
+              onClick={() => OpenModal(row.id)}
+            />
           ) : (
             <div />
           )}
-        </div>
+        </>
       ),
       MarketCap: (
         <NumberFormat
@@ -163,18 +174,6 @@ const TableContainer = () => {
             )
           }
         />
-      ),
-
-      Trade: (
-        <div>
-          <Button size="small" color="primary">
-            Buy
-          </Button>{" "}
-          /
-          <Button size="small" color="primary">
-            Sell
-          </Button>{" "}
-        </div>
       )
     };
 
@@ -189,7 +188,9 @@ const TableContainer = () => {
             <MobileTable data={data} columns={columns} />
           ) : (
             <MainTable
-              OpenModal={(ClickedCrypto) => OpenModal(ClickedCrypto)}
+              OpenModal={(ClickedCrypto, CryptoSymbol) =>
+                OpenModal(ClickedCrypto, CryptoSymbol)
+              }
               data={data}
             />
           )}
@@ -228,7 +229,7 @@ const TableContainer = () => {
         onClose={CloseModal}
         className="ModalStyle"
       >
-        <Fade in={OpnModal} timeout={500}>
+        <Fade in={OpnModal} timeout={250}>
           <Paper
             classes={{
               root: IsMobile ? "ModalPaper ModalPaperMoble" : "ModalPaper"
@@ -238,14 +239,14 @@ const TableContainer = () => {
             <Grid container>
               <Grid item xs={12} md={3}>
                 <div id="ModalIcon">
-                  <Icon i={SelectedCrypto[0].symbol.toLowerCase()} size={80} />
+                  <Icon i={SelectedCrypto.symbol.toLowerCase()} size={80} />
                 </div>
               </Grid>
               <Grid item xs={12} md={9}>
-                <Typography variant="h3">{SelectedCrypto[0].name}</Typography>
+                <Typography variant="h3">{SelectedCrypto.name}</Typography>
                 <Typography variant="h5" gutterBottom>
                   <NumberFormat
-                    value={SelectedCrypto[0].supply}
+                    value={SelectedCrypto.supply}
                     displayType={"text"}
                     thousandSeparator={true}
                     decimalScale={3}
@@ -264,9 +265,7 @@ const TableContainer = () => {
                     </p>
 
                     <NumberFormat
-                      value={AppState.CalculatePrice(
-                        SelectedCrypto[0].priceUsd
-                      )}
+                      value={AppState.CalculatePrice(SelectedCrypto.priceUsd)}
                       displayType={"text"}
                       thousandSeparator={true}
                       suffix={" " + AppState.SelectedFiat}
@@ -286,7 +285,7 @@ const TableContainer = () => {
 
                     <NumberFormat
                       value={AppState.CalculatePrice(
-                        SelectedCrypto[0].marketCapUsd
+                        SelectedCrypto.marketCapUsd
                       )}
                       displayType={"text"}
                       thousandSeparator={true}
@@ -305,7 +304,7 @@ const TableContainer = () => {
                     </p>
 
                     <NumberFormat
-                      value={SelectedCrypto[0].volumeUsd24Hr}
+                      value={SelectedCrypto.volumeUsd24Hr}
                       displayType={"text"}
                       thousandSeparator={true}
                       decimalScale={3}
@@ -314,7 +313,11 @@ const TableContainer = () => {
                 </Card>
               </Grid>
             </Grid>
-            <Graph CryptoName={SelectedCrypto[0].name.replace(" ", "-")} />
+            {SetSelectedCrypto !== "" ? (
+              <Graph CryptoName={UseName} />
+            ) : (
+              <div />
+            )}
             {/** */}
           </Paper>
         </Fade>
