@@ -1,14 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
 import "./styles.scss";
-import Header from "./Header";
-import TableContainer from "./TableContainer";
-import AppStateContext from "./appState";
+import Header from "./Header/Header";
+import TableContainer from "./Table/TableContainer";
+import AppStateContext from "./Shared/appState";
 import "react-perfect-scrollbar/dist/css/styles.css";
-import Typography from "@material-ui/core/Typography";
 import PerfectScrollbar from "react-perfect-scrollbar";
 const App = () => {
   const AppState = useContext(AppStateContext);
-
+  //gets data for application
   useEffect(() => {
     AppState.GetData();
   }, []);

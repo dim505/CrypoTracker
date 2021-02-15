@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import NavButton from "./NavButton";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import {
   LineChart,
   Line,
@@ -13,20 +12,31 @@ import {
   ResponsiveContainer
 } from "recharts";
 import moment from "moment";
-import { ApiCall } from "./ApiCall.js";
+import { ApiCall } from "../Shared/ApiCall";
+import AppStateContext from "../Shared/appState";
 
+
+//displays graph in modal
 const Graph = (props) => {
+  const AppState = useContext(AppStateContext);
+  //holds actual graph data
   const [GraphData, SetGraphData] = useState([]);
+  //tracks which button is pressed
   const [ActiveButton, SetActiveButton] = useState("Day");
+  
   useEffect(() => {
-    if (props.CryptoName !== "") {
+    if (props.CryptoName !== undefined) {
+      //gets current timee
       var CurrDate = moment().unix();
+      //gets time minus one day
       var CurrDateMinusOneDay = moment().subtract(1, "days").unix();
       //gets data for days graph
       GetGraphData(props.CryptoName, CurrDateMinusOneDay, CurrDate, "h1");
     }
   }, [props.CryptoName]);
 
+  //function that keeps track which time frame/button was pressed
+  //and gets the data approproate for the time frame
   const HandleButtonClick = (ButtonClicked) => {
     SetActiveButton(ButtonClicked);
     var CurrDate = moment().unix();
@@ -47,6 +57,7 @@ const Graph = (props) => {
   };
 
   //StartTime minus 1 day, endtime = current time
+  //function that gets the actual data
   const GetGraphData = (Coin, StartTime, EndTime, Interval) => {
     ApiCall(
       "Get",
@@ -62,10 +73,10 @@ const Graph = (props) => {
         var NewDate = moment(row.time).format("MMM DD, YY H:mm");
         FormattedResults.push({
           date: NewDate,
-          price: parseFloat(parseFloat(row.priceUsd).toFixed(3))
+          price: parseFloat(parseFloat(AppState.SelectedFiat === "USD" ? row.priceUsd : AppState.CalculatePrice(row.priceUsd) ).toFixed(3))
         });
       });
-      console.log(FormattedResults);
+       
       SetGraphData(FormattedResults);
     });
   };
@@ -116,7 +127,7 @@ const Graph = (props) => {
             <CartesianGrid strokeDasharray="3 3" />
             <Tooltip />
             <Legend />
-            <Line dot={false} dataKey="price" stroke="#0000FF" />
+            <Line dot={false} dataKey="price" stroke="#008b8b" />
           </LineChart>
         </ResponsiveContainer>
       </div>

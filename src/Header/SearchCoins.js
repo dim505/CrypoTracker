@@ -5,22 +5,24 @@ import InputLabel from "@material-ui/core/InputLabel";
 import SearchIcon from "@material-ui/icons/Search";
 import FormControl from "@material-ui/core/FormControl";
 import NativeSelect from "@material-ui/core/NativeSelect";
-import AppStateContext from "./appState";
+import AppStateContext from "../Shared/appState";
 import { observer } from "mobx-react";
 
 const SearchCoins = () => {
   const appState = useContext(AppStateContext);
-  //const [Searchterm, SetSearchTerm] = useState("");
-
+  //function to calcualte time lasped
   const GetTimeElapsed = (startTime) => {
     var elapsedTime = Date.now() - startTime;
     return elapsedTime;
   };
 
+  //searches coins with each key entered
   const handleChange = async (SearchTerm) => {
     appState.SearchCoins(SearchTerm);
   };
 
+
+  //keeps track of  selected Fiat 
   const UpdateFiat = (event) => {
     appState.UpdateSelectedFiat(event.target.value);
   };

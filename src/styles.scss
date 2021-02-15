@@ -1,3 +1,4 @@
+/*Nav bar styling*/
 .FlexEnd {
   flex-direction: row-reverse;
   align-items: center;
@@ -11,6 +12,7 @@
   height: 75px;
 }
 
+/*Styling for the root container*/
 .Container {
   width: 100%;
   height: 99vh !important;
@@ -20,6 +22,7 @@ body {
   overflow: hidden;
 }
 
+//styling for the crypto symbol
 #CryptoSymbol {
   margin-right: 30px;
   margin-left: 10px;
@@ -29,19 +32,21 @@ body {
   padding: 3px;
 }
 
+//styling for the crypto icon
 .CrytpoIcon {
   display: inline;
   vertical-align: middle;
 }
 
+/*classes used to style changes in 24 hrs change column */
 .ColorRed {
   color: red !important;
 }
-
 .ColorGreen {
   color: Green !important;
 }
 
+//style for Fiat dropdown
 .Fiat {
   vertical-align: bottom !important;
 }
@@ -51,69 +56,72 @@ body.light-mode {
   color: black;
   transition: background-color 0.3s ease;
 }
+
+/*styling for dark mode */
+$DarkModeText: white;
+$DarkModeBackgroundColor: #1a1919;
+
 body.dark-mode {
-  background-color: #1a1919;
-  color: white;
+  background-color: $DarkModeBackgroundColor;
+  color: $DarkModeText;
   transition: background-color 0.3s ease;
 
   .MuiTableCell-head {
-    color: white;
+    color: $DarkModeText;
   }
   .MuiFormLabel-root {
-    color: white;
+    color: $DarkModeText;
   }
 
   .MuiTypography-root {
-    color: white;
+    color: $DarkModeText;
   }
 
   .MuiDivider-root {
-    background-color: white;
+    background-color: $DarkModeText;
   }
-
 
   .recharts-tooltip-label {
-    color:black;
-
+    color: $DarkModeBackgroundColor;
   }
   .MuiNativeSelect-select {
-    background-color: #1a1919;
+    background-color: $DarkModeBackgroundColor;
   }
 
   .MuiButton-label {
-    color: white;
+    color: $DarkModeText;
   }
   .MuiInputBase-root {
-    color: white;
+    color: $DarkModeText;
   }
   .MuiTableCell-body {
-    color: white;
+    color: $DarkModeText;
   }
 
   .MuiNativeSelect-icon {
-    color: white;
+    color: $DarkModeText;
   }
 
   .MuiNativeSelect-select:not([multiple]) option,
   .MuiNativeSelect-select:not([multiple]) optgroup {
-    background-color: black;
+    background-color: $DarkModeBackgroundColor;
   }
 
   .MuiPaper-root {
-    color: white;
-    background-color: #1a1919;
+    color: $DarkModeText;
+    background-color: $DarkModeBackgroundColor;
   }
 
   .MuiIconButton-root {
-    color: white;
+    color: $DarkModeText;
   }
 
   .ChartContainer {
-    background-color: #1a1919;
+    background-color: $DarkModeBackgroundColor;
   }
 
   .MuiExpansionPanel-root:before {
-    background-color: white;
+    background-color: $DarkModeText;
   }
 
   .MuiTableBody-root .MuiTableRow-root:hover {
@@ -121,8 +129,8 @@ body.dark-mode {
   }
 
   .MuiPaper-elevation1 {
-    box-shadow: 0px 2px 1px -1px white, 0px 1px 1px 0px white,
-      0px 1px 3px 0px white;
+    box-shadow: 0px 2px 1px -1px $DarkModeText, 0px 1px 1px 0px $DarkModeText,
+      0px 1px 3px 0px $DarkModeText;
   }
 
   .ColorRed {
@@ -145,6 +153,7 @@ body.dark-mode {
   background-color: #e3fdff;
 }
 
+//defines styles in modal element
 .ModalStyle {
   align-items: center;
   display: flex;
@@ -152,31 +161,37 @@ body.dark-mode {
   justify-content: center;
   height: 100%;
   border: none;
-
+  //styles paper element
   .ModalPaper {
     width: 900px;
     outline: none;
     padding: 10px;
     margin: 20px;
   }
-
+  //style for paper element in mobile
   .ModalPaperMoble {
-      margin-top:625px;
+    margin-top: 625px;
   }
 
   #ModalIcon {
     text-align: center;
   }
+  //container for modal graph
+  .ChartContainer {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
+    height: 300px;
+    background-color: #fff;
+  }
 }
 
-.ChartContainer {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  padding: 10px;
-  width: 100%;
-  height: 300px;
-  background-color: #fff;
+.pointer {
+  cursor: pointer;
 }
 
-.pointer {cursor: pointer;}
+.MuiButton-contained {
+  background-color: darkcyan !important;
+}

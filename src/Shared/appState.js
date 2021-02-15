@@ -1,15 +1,15 @@
 import { observable, action, computed } from "mobx";
 import { ApiCall } from "./ApiCall.js";
-import React, { useEffect, useState, useContext } from "react";
 import { createContext } from "react";
-import GenCrypto from "./GenericCrypo.svg";
-
+ 
+//contains shared functions and state for the app
 class AppState {
   @observable Rows = [];
   @observable RowsFiltered = [];
   @observable Fiats = [];
   @observable SelectedFiat = "USD";
   @observable SearchArray = [];
+  @observable ConversionRate = '';
 
   setCrypoPics = () => {
     setTimeout(() => {
@@ -38,7 +38,15 @@ class AppState {
   };
 
   UpdateSelectedFiat = (NewFiat) => {
-    this.SelectedFiat = NewFiat;
+      if (NewFiat !== "USD") {
+      var FilteredArray = this.Fiats.filter(
+        (fiat) => fiat.symbol === NewFiat
+      );
+      this.ConversionRate = FilteredArray[0].rateUsd
+      }
+    
+      this.SelectedFiat = NewFiat;
+
   };
 
   SearchCoins = (CoinSearch) => {
@@ -60,11 +68,7 @@ class AppState {
 
   CalculatePrice(BaseUsdPrice) {
     if (this.SelectedFiat !== "USD") {
-      var FilteredArray = this.Fiats.filter(
-        (fiat) => fiat.symbol === this.SelectedFiat
-      );
-
-      return BaseUsdPrice * (1 / FilteredArray[0].rateUsd);
+      return BaseUsdPrice * (1 / this.ConversionRate);
     } else {
       return BaseUsdPrice;
     }
@@ -90,8 +94,7 @@ class AppState {
       ];
       this.setCrypoPics();
     }
-
-    console.log("Loaded More Crypto");
+ 
   };
 }
 

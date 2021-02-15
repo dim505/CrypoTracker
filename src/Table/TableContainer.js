@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import AppStateContext from "./appState";
+import AppStateContext from "../Shared/appState";
 import { observer } from "mobx-react";
 import MoodBadIcon from "@material-ui/icons/MoodBad";
 import Typography from "@material-ui/core/Typography";
@@ -9,42 +9,37 @@ import MobileTable from "./MobileTable";
 import NumberFormat from "react-number-format";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
-import Button from "@material-ui/core/Button";
 import { Icon } from "coinmarketcap-cryptocurrency-icons";
-import Modal from "@material-ui/core/Modal";
-import Fade from "@material-ui/core/Fade";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
-import Graph from "./Graph";
 import LaunchIcon from "@material-ui/icons/Launch";
-import CardContent from "@material-ui/core/CardContent";
-import { ApiCall } from "./ApiCall.js";
- 
+import { ApiCall } from "../Shared/ApiCall";
+import ModalPopUp from "../Modal/ModalPopUp" 
+
+//parent table that holds with mobile and desktop table components
 const TableContainer = () => {
   const AppState = useContext(AppStateContext);
   const [OpnModal, SetModal] = useState(false);
+  //keeps track of the Crypto the user clicked on
   const [SelectedCrypto, SetSelectedCrypto] = useState({
     name: "",
     symbol: ""
   });
-  const [UseName, SetUseName] = useState("");
-
+  //keeps track of screen size
   const IsMobile = useMediaQuery("(max-width: 800px)");
+  
+  //opens modal
   const OpenModal = (CryptoName) => {
 
     SetModal(true);
-
+    //gets data for selected coin
     ApiCall("Get", `https://api.coincap.io/v2/assets/${CryptoName}`).then(
       (results) => {
         if (results.data !== undefined) {
           SetSelectedCrypto(results.data);
-          SetUseName(CryptoName);
         }
       }
     );
 
-    
+    //replaces icons with generic icon if no icon is found
     setTimeout(() => {
       var IconElement = document.getElementById("ModalIcon");
       if (IconElement.innerHTML.search("undefined") !== -1) {
@@ -53,6 +48,7 @@ const TableContainer = () => {
     }, 1000);
   };
 
+  //closes modal 
   const CloseModal = () => {
     SetModal(false);
     SetSelectedCrypto({
@@ -61,6 +57,8 @@ const TableContainer = () => {
     });
   };
   window.IsMobile = IsMobile;
+  
+  //defines the columns required the mobile table
   const columns = [
     {
       key: "name",
@@ -90,7 +88,7 @@ const TableContainer = () => {
       label: "Change (24 hr)"
     }
   ];
-
+  //builds out the rows for the table 
   const data = AppState.RowsFiltered.map((row) => {
     var RowObj = {
       Key: row.id,
@@ -222,106 +220,12 @@ const TableContainer = () => {
         </div>
       )}
 
-      <Modal
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-        open={OpnModal}
-        onClose={CloseModal}
-        className="ModalStyle"
-      >
-        <Fade in={OpnModal} timeout={250}>
-          <Paper
-            classes={{
-              root: IsMobile ? "ModalPaper ModalPaperMoble" : "ModalPaper"
-            }}
-          >
-            {" "}
-            <Grid container>
-              <Grid item xs={12} md={3}>
-                <div id="ModalIcon">
-                  <Icon i={SelectedCrypto.symbol.toLowerCase()} size={80} />
-                </div>
-              </Grid>
-              <Grid item xs={12} md={9}>
-                <Typography variant="h3">{SelectedCrypto.name}</Typography>
-                <Typography variant="h5" gutterBottom>
-                  <NumberFormat
-                    value={SelectedCrypto.supply}
-                    displayType={"text"}
-                    thousandSeparator={true}
-                    decimalScale={3}
-                    suffix=" "
-                  />
-                  Circulating Supply
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid spacing={4} container>
-              <Grid item xs={12} md={4}>
-                <Card>
-                  <CardContent>
-                    <p>
-                      <b> Current Value </b>{" "}
-                    </p>
-
-                    <NumberFormat
-                      value={AppState.CalculatePrice(SelectedCrypto.priceUsd)}
-                      displayType={"text"}
-                      thousandSeparator={true}
-                      suffix={" " + AppState.SelectedFiat}
-                      decimalScale={2}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12} md={4}>
-                <Card>
-                  <CardContent>
-                    <p>
-                      {" "}
-                      <b> Market Cap </b>{" "}
-                    </p>
-
-                    <NumberFormat
-                      value={AppState.CalculatePrice(
-                        SelectedCrypto.marketCapUsd
-                      )}
-                      displayType={"text"}
-                      thousandSeparator={true}
-                      suffix={" " + AppState.SelectedFiat}
-                      decimalScale={2}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Card>
-                  <CardContent>
-                    <p>
-                      {" "}
-                      <b>24hr Volume </b>
-                    </p>
-
-                    <NumberFormat
-                      value={SelectedCrypto.volumeUsd24Hr}
-                      displayType={"text"}
-                      thousandSeparator={true}
-                      decimalScale={3}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-            {SetSelectedCrypto !== "" ? (
-              <Graph CryptoName={UseName} />
-            ) : (
-              <div />
-            )}
-            {/** */}
-          </Paper>
-        </Fade>
-      </Modal>
+        <ModalPopUp 
+       
+        IsMobile={IsMobile}
+        CloseModal={CloseModal}
+        OpnModal={OpnModal}
+        SelectedCrypto = {SelectedCrypto}/>
     </div>
   );
 };

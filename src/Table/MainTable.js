@@ -5,12 +5,14 @@ import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import Table from "@material-ui/core/Table";
-import AppStateContext from "./appState";
+import AppStateContext from "../Shared/appState";
 import { observer } from "mobx-react";
 
+
+//contains desktop table 
 const MainTable = (props) => {
   const appState = useContext(AppStateContext);
-
+  //fixes missing Crypto icons
   useEffect(() => {
     appState.setCrypoPics();
   }, []);
@@ -45,7 +47,7 @@ const MainTable = (props) => {
               <TableCell
                 classes={{
                   root:
-                    Math.sign(row.changePercent24Hr) === -1
+                    Math.sign(parseFloat(row.Change.props.value)) === -1
                       ? "ColorRed"
                       : "ColorGreen"
                 }}

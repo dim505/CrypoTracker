@@ -5,8 +5,14 @@ import Typography from "@material-ui/core/Typography";
 import Switch from "@material-ui/core/Switch";
 import useDarkMode from "use-dark-mode";
 import SearchCoins from "./SearchCoins";
+
+//defines some config for dark mode
+const darkModeConfig = {
+  storageKey: null
+}
 const Header = () => {
-  const darkMode = useDarkMode(false);
+  //enables use of dark mode
+  const darkMode = useDarkMode(false, darkModeConfig);
 
   return (
     <>
