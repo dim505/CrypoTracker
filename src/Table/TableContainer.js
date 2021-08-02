@@ -13,6 +13,7 @@ import { Icon } from "coinmarketcap-cryptocurrency-icons";
 import LaunchIcon from "@material-ui/icons/Launch";
 import { ApiCall } from "../Shared/ApiCall";
 import ModalPopUp from "../Modal/ModalPopUp" 
+import Fade from 'react-reveal/Fade';
 
 //parent table that holds with mobile and desktop table components
 const TableContainer = () => {
@@ -182,6 +183,7 @@ const TableContainer = () => {
     <div>
       {AppState.RowsFiltered.length >= 1 ? (
         <>
+
           {IsMobile ? (
             <MobileTable data={data} columns={columns} />
           ) : (

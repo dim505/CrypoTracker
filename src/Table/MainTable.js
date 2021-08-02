@@ -6,6 +6,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import Table from "@material-ui/core/Table";
 import AppStateContext from "../Shared/appState";
+import Fade from 'react-reveal/Fade';
 import { observer } from "mobx-react";
 
 
@@ -18,6 +19,7 @@ const MainTable = (props) => {
   }, []);
 
   return (
+    <Fade top cascade>
     <TableContainer>
       <Table>
         <TableHead>
@@ -32,6 +34,9 @@ const MainTable = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
+          
+     
+  
           {props.data.map((row) => (
             <TableRow
               key={row.Key}
@@ -56,9 +61,14 @@ const MainTable = (props) => {
               </TableCell>
             </TableRow>
           ))}
+
+
+
         </TableBody>
       </Table>
     </TableContainer>
+
+    </Fade>
   );
 };
 

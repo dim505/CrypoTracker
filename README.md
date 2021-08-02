@@ -1,2 +1,2 @@
-#Portfolio V2
-Please visit my CryptoTracker (http://cryptotracker123.azurewebsites.net). You can find my code for this project here (https://github.com/dim505/CrypoTracker) 
+#CrypoTracker
+Please visit my CryptoTracker (https://cryptotracker1.azurewebsites.net/). My Cryptocurreny tracker tracks over 1000 coin values. It displays the price proggession over a year, month, week and day. You can search for different coins and you have a list of currencies you can select from. Lastly, It has Day/Night mode. Depending on what time of day you are viewing the app, you can darken or lighten the background.

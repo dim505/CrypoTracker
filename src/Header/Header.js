@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Switch from "@material-ui/core/Switch";
 import useDarkMode from "use-dark-mode";
 import SearchCoins from "./SearchCoins";
+import Fade from 'react-reveal/Fade';
 
 //defines some config for dark mode
 const darkModeConfig = {
@@ -15,7 +16,8 @@ const Header = () => {
   const darkMode = useDarkMode(false, darkModeConfig);
 
   return (
-    <>
+     
+    <Fade top cascade duration={200}>
       <div className="NavBar">
         <TimelineIcon />
 
@@ -33,7 +35,8 @@ const Header = () => {
       </div>
       <Divider />
       <SearchCoins />
-    </>
+      </Fade>
+     
   );
 };
 
