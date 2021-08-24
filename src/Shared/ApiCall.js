@@ -7,7 +7,9 @@ export const ApiCall = async (Method, url, PostData) => {
 
   if (Method === "Get") {
     try {
-      await Axios.get(`${url}`).then((results) => {
+      await Axios.get(`${url}`
+      
+      ).then((results) => {
         result = results.data;
       });
       return result;

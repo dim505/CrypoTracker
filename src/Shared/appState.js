@@ -11,6 +11,10 @@ class AppState {
   @observable SearchArray = [];
   @observable ConversionRate = '';
 
+  SetModalCoin = (Coin) => {
+        this.ModalCoin = Coin
+  }
+
   setCrypoPics = () => {
     setTimeout(() => {
       var items = document.getElementsByClassName("CrytpoIcon");
@@ -20,21 +24,28 @@ class AppState {
         }
       }
     }, 1000);
-  };
+  }
   GetData = () => {
-    ApiCall("Get", "https://api.coincap.io/v2/assets?limit=600").then(
+    //had to use proxy bypass as it is blocked by CORS, server does not support calls from Azure
+    ApiCall("Get", "https://api.coincap.io/v2/assets?limit=500").then(
       (results) => {
         this.Rows = results.data;
         this.RowsFiltered = results.data.slice(0, 200);
         this.IsLoaded = true;
-
         this.setCrypoPics();
       }
     );
-
+     
+   setTimeout(()=> {
     ApiCall("Get", "https://api.coincap.io/v2/rates").then((results) => {
       this.Fiats = results.data;
     });
+
+   }, 2000)
+ 
+  
+
+ 
   };
 
   UpdateSelectedFiat = (NewFiat) => {

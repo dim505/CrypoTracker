@@ -31,15 +31,20 @@ const TableContainer = () => {
   const OpenModal = (CryptoName) => {
 
     SetModal(true);
+    console.log(CryptoName)
+    //console.log(AppState.Rows)
     //gets data for selected coin
-    ApiCall("Get", `https://api.coincap.io/v2/assets/${CryptoName}`).then(
-      (results) => {
-        if (results.data !== undefined) {
-          SetSelectedCrypto(results.data);
-        }
-      }
-    );
 
+    
+    var Coin
+    for (const coin of AppState.Rows) {
+      if (coin.id === CryptoName ){
+        Coin =  coin
+      }
+    }
+    AppState.SetModalCoin(Coin)
+    SetSelectedCrypto(AppState.ModalCoin);
+ 
     //replaces icons with generic icon if no icon is found
     setTimeout(() => {
       var IconElement = document.getElementById("ModalIcon");

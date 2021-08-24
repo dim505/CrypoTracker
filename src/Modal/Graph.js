@@ -14,7 +14,8 @@ import {
 import moment from "moment";
 import { ApiCall } from "../Shared/ApiCall";
 import AppStateContext from "../Shared/appState";
-
+import Fade from '@material-ui/core/Fade';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 //displays graph in modal
 const Graph = (props) => {
@@ -41,19 +42,22 @@ const Graph = (props) => {
     SetActiveButton(ButtonClicked);
     var CurrDate = moment().unix();
     var CurrDateMinusOneDay = "";
-    if (ButtonClicked === "Day") {
-      CurrDateMinusOneDay = moment().subtract(1, "days").unix();
-      GetGraphData(props.CryptoName, CurrDateMinusOneDay, CurrDate, "h1");
-    } else if (ButtonClicked === "Week") {
-      CurrDateMinusOneDay = moment().subtract(7, "days").unix();
-      GetGraphData(props.CryptoName, CurrDateMinusOneDay, CurrDate, "d1");
-    } else if (ButtonClicked === "Month") {
-      CurrDateMinusOneDay = moment().subtract(30, "days").unix();
-      GetGraphData(props.CryptoName, CurrDateMinusOneDay, CurrDate, "d1");
-    } else if (ButtonClicked === "Year") {
-      CurrDateMinusOneDay = moment().subtract(365, "days").unix();
-      GetGraphData(props.CryptoName, CurrDateMinusOneDay, CurrDate, "d1");
-    }
+
+      if (ButtonClicked === "Day") {
+        CurrDateMinusOneDay = moment().subtract(1, "days").unix();
+        GetGraphData(props.CryptoName, CurrDateMinusOneDay, CurrDate, "h1");
+      } else if (ButtonClicked === "Week") {
+        CurrDateMinusOneDay = moment().subtract(7, "days").unix();
+        GetGraphData(props.CryptoName, CurrDateMinusOneDay, CurrDate, "d1");
+      } else if (ButtonClicked === "Month") {
+        CurrDateMinusOneDay = moment().subtract(30, "days").unix();
+        GetGraphData(props.CryptoName, CurrDateMinusOneDay, CurrDate, "d1");
+      } else if (ButtonClicked === "Year") {
+        CurrDateMinusOneDay = moment().subtract(365, "days").unix();
+        GetGraphData(props.CryptoName, CurrDateMinusOneDay, CurrDate, "d1");
+      }
+
+
   };
 
   //StartTime minus 1 day, endtime = current time
@@ -78,6 +82,7 @@ const Graph = (props) => {
       });
        
       SetGraphData(FormattedResults);
+     
     });
   };
 
@@ -117,19 +122,26 @@ const Graph = (props) => {
         </Grid>
       </Grid>
       <div className="ChartContainer">
+ 
         <ResponsiveContainer height={300} width="99%">
-          <LineChart
-            margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
-            data={GraphData}
-          >
-            <XAxis dataKey="date" />
-            <YAxis />
-            <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip />
-            <Legend />
-            <Line dot={false} dataKey="price" stroke="#008b8b" />
-          </LineChart>
-        </ResponsiveContainer>
+        <LineChart
+          margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
+          data={GraphData}
+        >
+          <XAxis dataKey="date" />
+          <YAxis />
+          <CartesianGrid strokeDasharray="3 3" />
+          <Tooltip />
+          <Legend />
+          <Line dot={false} dataKey="price" stroke="#008b8b" />
+        </LineChart>
+      </ResponsiveContainer>
+        
+        
+
+
+
+        
       </div>
     </>
   );
