@@ -69,6 +69,11 @@ const Graph = (props) => {
         StartTime * 1000
       }&end=${EndTime * 1000}&interval=${Interval}`
     ).then((results) => {
+      if (results == "error")
+      {
+        AppState.OpenErrorSnackBar(true)
+      } else {
+
       var QueryResults = results.data;
       var FormattedResults = [];
 
@@ -82,6 +87,8 @@ const Graph = (props) => {
       });
        
       SetGraphData(FormattedResults);
+
+    }
      
     });
   };

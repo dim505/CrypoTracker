@@ -1,5 +1,6 @@
 import Axios from "axios";
-
+import React, { useEffect, useState, useContext } from "react";
+import AppStateContext from "../Shared/appState";
 //refactored api calls to a seperate module
 export const ApiCall = async (Method, url, PostData) => {
   const BearerToken = window.getTokenSilently;
@@ -14,7 +15,8 @@ export const ApiCall = async (Method, url, PostData) => {
       });
       return result;
     } catch (error) {
-      return error;
+      
+      return "error";
     }
   } else if (Method === "Post") {
     try {

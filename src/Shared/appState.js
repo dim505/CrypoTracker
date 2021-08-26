@@ -1,7 +1,7 @@
 import { observable, action, computed } from "mobx";
 import { ApiCall } from "./ApiCall.js";
 import { createContext } from "react";
- 
+
 //contains shared functions and state for the app
 class AppState {
   @observable Rows = [];
@@ -10,7 +10,7 @@ class AppState {
   @observable SelectedFiat = "USD";
   @observable SearchArray = [];
   @observable ConversionRate = '';
-
+  @observable OpenError = false;
   SetModalCoin = (Coin) => {
         this.ModalCoin = Coin
   }
@@ -25,20 +25,36 @@ class AppState {
       }
     }, 1000);
   }
+
+  OpenErrorSnackBar = (bool) => {
+    this.OpenError = bool
+  }
   GetData = () => {
     //had to use proxy bypass as it is blocked by CORS, server does not support calls from Azure
     ApiCall("Get", "https://api.coincap.io/v2/assets?limit=500").then(
       (results) => {
-        this.Rows = results.data;
-        this.RowsFiltered = results.data.slice(0, 200);
-        this.IsLoaded = true;
-        this.setCrypoPics();
+        if (results == "error")
+        {
+          this.OpenErrorSnackBar(true)
+        } else {
+          this.Rows = results.data;
+          this.RowsFiltered = results.data.slice(0, 200);
+          this.IsLoaded = true;
+          this.setCrypoPics();
+        }
+
       }
     );
      
    setTimeout(()=> {
     ApiCall("Get", "https://api.coincap.io/v2/rates").then((results) => {
+      if (results == "error")
+      {
+        this.OpenErrorSnackBar(true)
+      } else {
+
       this.Fiats = results.data;
+      }
     });
 
    }, 2000)
